@@ -6,8 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Lab3 {
+
     public static void main(String[] args) throws FileNotFoundException {
-            
+
         try {
             PrintWriter output = new PrintWriter("Data1.txt");
             output.write("Harry Potter is my baby.\n");
@@ -19,14 +20,14 @@ public class Lab3 {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Lab3.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try{
+        try {
             FileReader in = new FileReader("Data1.txt");
             BufferedReader input = new BufferedReader(in);
             String s;
-            while ((s = input.readLine()) != null){
+            while ((s = input.readLine()) != null) {
                 System.out.println(s);
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             Logger.getLogger(Lab1.class.getName()).log(Level.SEVERE, null, e);
         }
         Scanner sc = new Scanner(new FileReader("Data1.txt"));
