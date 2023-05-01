@@ -20,7 +20,7 @@ public class Lab3 {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Lab3.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
+        try { //read example 1
             FileReader in = new FileReader("Data1.txt");
             BufferedReader input = new BufferedReader(in);
             String s;
@@ -30,6 +30,7 @@ public class Lab3 {
         } catch (IOException e) {
             Logger.getLogger(Lab1.class.getName()).log(Level.SEVERE, null, e);
         }
+        //read example 2
         Scanner sc = new Scanner(new FileReader("Data1.txt"));
         String ss = sc.nextLine();
         System.out.println(ss);
