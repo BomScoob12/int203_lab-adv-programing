@@ -1,6 +1,8 @@
 package byteStreams2;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Lab5 {
     public static void main(String[] args) {
@@ -10,7 +12,7 @@ public class Lab5 {
             objectOutputStream.writeObject(s1);
             objectOutputStream.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(Lab5.class.getName()).log(Level.SEVERE, null, e);
         }
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("obj.dat"));
