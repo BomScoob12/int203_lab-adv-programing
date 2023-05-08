@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package dbprogramming2;
 
 import java.util.logging.Level;
@@ -11,10 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
-/**
- *
- * @author BomScoob
- */
+
 public class DBProgramming2 {
 
     /**
@@ -24,7 +18,7 @@ public class DBProgramming2 {
         //variable
         String URL = "jdbc:mysql://localhost:3306/mydb2";
         String username = "root";
-        String password = "BomScoob112004@";
+        final String password = "mysql@sit";
         
         //load driver
         try {
@@ -35,16 +29,19 @@ public class DBProgramming2 {
             Connection connection = DriverManager.getConnection(URL, username, password);
             System.out.println("Connected database");
             
-            //get stagement
+            //get stagement for execute sql command
             Statement statement = connection.createStatement();
-            String sql = "select * from students";
+            String sqlCmd = "select * from students";
             //execute sql command
-            ResultSet results = statement.executeQuery(sql);
-            //sql keep in result and loop to gat data
+            ResultSet results = statement.executeQuery(sqlCmd);
+            //sql keep in result[Set] and loop to gat data
+
+            //So you can do it in one statement
+            ResultSet results2 = DriverManager.getConnection(URL,username,password).createStatement().executeQuery(sqlCmd);
             
             while(results.next()){
                 //getString(x) method  "x" is column
-                System.out.println(results.getString(1) + " " +
+                System.out.println(results.getInt(1) + " " +
                         results.getString(2) + " " + 
                         results.getString(3));
             }
