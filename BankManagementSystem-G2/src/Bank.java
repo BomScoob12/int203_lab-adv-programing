@@ -1,4 +1,3 @@
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 public class Bank {
@@ -7,6 +6,12 @@ public class Bank {
     private final int bankID;
 
     Connection connection = BankingConnection.connect();
+
+    public Bank() {
+        bankName = "Bank";
+        branch = "Unknowns";
+        bankID = 0;
+    }
 
     public Bank(String name, String branch, int bankID) {
         this.bankName = name;
@@ -19,43 +24,45 @@ public class Bank {
             Statement statement = connection.createStatement();
             String sql = "SELECT * FROM accounts";
             ResultSet result = statement.executeQuery(sql);
-//            result.next();
-//            System.out.println(result.getString(1)+result.getString(2));
-
+            while (result.next()) {
+                System.out.println(result.getInt(1) +
+                        " " + result.getString(2) +
+                        " " + result.getDouble(3) +
+                        " " + result.getString(4));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public void openAccount(int accountNumber, String accountName, double balance) {
-        if (accountNumber <= 0 || accountName.isBlank()) return;
-        String sql = "INSERT INTO accounts (accNumber, accName, accBalance) "
-                + "VALUES(?,?,?)";
+    public void openAccount(Account account) {
+        String sql = "INSERT INTO accounts (accNumber, accName, accBalance, accType) "
+                + "VALUES(?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, accountNumber);
-            preparedStatement.setString(2, accountName);
-            preparedStatement.setDouble(3, balance);
+            preparedStatement.setInt(1, account.getAccountNumber());
+            preparedStatement.setString(2, account.getAccountName());
+            preparedStatement.setDouble(3, account.getBalance());
+            preparedStatement.setString(4, account.getAccountType());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void closeAccount(int accountNumber) {
+    public void closeAccount(Account account) {
         try {
             String sql = "DELETE FROM accounts WHERE accNumber = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,accountNumber);
+            preparedStatement.setInt(1, account.getAccountNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void depositMoney(int accountNumber, double amount) {
-        Account account = getAccount(accountNumber);
+    public void depositMoney(Account account, double amount) {
         account.deposit(amount);
         String sql = "UPDATE accounts SET accBalance = ? WHERE accNumber = ?";
         try {
@@ -68,8 +75,7 @@ public class Bank {
         }
     }
 
-    public void withdrawMoney(int accountNumber, double amount) {
-        Account account = getAccount(accountNumber);
+    public void withdrawMoney(Account account, double amount) {
         account.withdraw(amount);
         String sql = "UPDATE accounts SET accBalance = ? WHERE accNumber = ?";
         try {
@@ -82,16 +88,40 @@ public class Bank {
         }
     }
 
-    public Account getAccount(int accountNumber) {
-        String sql = "SELECT * FROM accounts WHERE accNumber = ?";
+    public Account getAccount(int accountNumber, String accountType) {
+        String sql = "SELECT * FROM accounts WHERE accNumber = ? AND accType = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, accountNumber);
+            preparedStatement.setString(2, accountType);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return new Account(resultSet.getInt(1), resultSet.getString(2),resultSet.getInt(3));
+            switch (accountType) {
+                case "Current Account" -> {
+                    return new CurrentAccount(resultSet.getInt(1), resultSet.getString(2), resultSet.getDouble(3));
+                }
+                case "Fixed Deposit Account" -> {
+                    return new FixedDepositAccount(resultSet.getInt(1), resultSet.getString(2), resultSet.getDouble(3));
+                }
+                case "Saving Account" -> {
+                    return new SavingAccount(resultSet.getInt(1), resultSet.getString(2), resultSet.getDouble(3));
+                }
+            }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public int getBankID() {
+        return bankID;
     }
 }
