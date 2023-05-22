@@ -18,8 +18,9 @@ public class Lab4 {
 
         try {
             BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream("data.dat"));
-            while (bufferedInputStream.read() != -1){
-                System.out.println(bufferedInputStream.read()+" "+ (char) bufferedInputStream.read());
+            int string;
+            while ((string = bufferedInputStream.read()) != -1){
+                System.out.println(string + " " + (char) string);
             }
             bufferedInputStream.close();
         } catch (FileNotFoundException e) {
