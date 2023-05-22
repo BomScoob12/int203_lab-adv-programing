@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 public class Lab2 {
     public static void main(String[] args) {
         try{
-            FileWriter out = new FileWriter("Data1.txt");
+            FileWriter out = new FileWriter("Data1.txt", true);
             out.write("Hello world");
             out.write("Welcome to JAVA");
             out.close();

@@ -19,7 +19,7 @@ public class Lab4 {
             System.out.println("Enter your height:");
             String h = ioInput.readLine();
             
-            System.out.println("Your Weight * height :"+ parseDouble(w)*parseDouble(h));
+            System.out.println("Your Weight * height : "+ parseDouble(w)*parseDouble(h));
         } catch (IOException ex) {
             Logger.getLogger(Lab4.class.getName()).log(Level.SEVERE, null, ex);
         }
