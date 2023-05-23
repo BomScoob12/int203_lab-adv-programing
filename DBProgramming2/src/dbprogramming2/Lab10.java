@@ -3,9 +3,6 @@ package dbprogramming2;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class Lab10 {

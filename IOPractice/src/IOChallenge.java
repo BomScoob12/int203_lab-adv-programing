@@ -4,7 +4,7 @@ import java.util.List;
 
 public class IOChallenge {
         public static void main(String[] args) throws Exception{
-        java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+//        java.awt.Desktop.getDesktop().browse(new java.net.URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
         List<String> list = new ArrayList<>();
 
         //3: Prompt the user to enter lines of text and store them in 'lines' list
